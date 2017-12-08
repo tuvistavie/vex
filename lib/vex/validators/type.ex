@@ -132,12 +132,11 @@ defmodule Vex.Validators.Type do
 
   defp acceptable_type_str([acceptable_type]), do: inspect(acceptable_type)
   defp acceptable_type_str(acceptable_types) when is_list(acceptable_types) do
-    last_type = acceptable_types |> List.last |> inspect
-    but_last =
+    {last_type, bust_last_types} =
       acceptable_types
-      |> Enum.take(Enum.count(acceptable_types) - 1)
       |> Enum.map(&inspect/1)
-      |> Enum.join(", ")
+      |> List.pop_at(-1)
+    but_last = Enum.join(bust_last_types, ", ")
     "#{but_last} or #{last_type}"
   end
   defp acceptable_type_str(acceptable_type), do: inspect(acceptable_type)
